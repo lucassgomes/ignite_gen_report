@@ -25,3 +25,5 @@ gen_report-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+results.json
