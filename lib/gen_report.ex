@@ -42,18 +42,14 @@ defmodule GenReport do
          } = report
        ) do
     %{
-      sum_all_hours: sum_all_hours,
-      sum_hours_per_month: sum_hours_per_month,
-      sum_hours_per_year: sum_hours_per_year
+      "sum_all_hours" => sum_all_hours,
+      "sum_hours_per_month" => sum_hours_per_month,
+      "sum_hours_per_year" => sum_hours_per_year
     } =
       sum_map_values_by_name(
         name,
-        %{
-          all_hours: all_hours,
-          hours_per_month: hours_per_month,
-          hours_per_year: hours_per_year
-        },
-        %{month: month, year: year, hours: hours}
+        report,
+        %{"month" => month, "year" => year, "hours" => hours}
       )
 
     %{
@@ -77,11 +73,11 @@ defmodule GenReport do
   defp sum_map_values_by_name(
          name,
          %{
-           all_hours: all_hours,
-           hours_per_month: hours_per_month,
-           hours_per_year: hours_per_year
+           "all_hours" => all_hours,
+           "hours_per_month" => hours_per_month,
+           "hours_per_year" => hours_per_year
          },
-         %{month: month, year: year, hours: hours}
+         %{"month" => month, "year" => year, "hours" => hours}
        ) do
     current_value_all_hours = Map.get(all_hours, name, 0)
 
@@ -95,13 +91,13 @@ defmodule GenReport do
     value_hours_per_year = Map.get(current_value_hours_per_year, year, 0)
 
     %{
-      sum_all_hours: current_value_all_hours + hours,
-      sum_hours_per_month:
+      "sum_all_hours" => current_value_all_hours + hours,
+      "sum_hours_per_month" =>
         Map.merge(
           current_value_hours_per_month,
           Map.new([month], fn m -> {m, hours + value_hours_per_month} end)
         ),
-      sum_hours_per_year:
+      "sum_hours_per_year" =>
         Map.merge(
           current_value_hours_per_year,
           Map.new([year], fn y -> {y, hours + value_hours_per_year} end)
